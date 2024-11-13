@@ -129,6 +129,12 @@ export default function SearchBar({ addToWatchlist, onMovieSelect, watchlist }) 
         return watchlist.some(item => item.id === movieId);
     };
 
+    const handleSearchBarClick = () => {
+        if (query) {  // Only perform search if there's an existing query
+            performSearch(query);
+        }
+    };
+
     useEffect(() => {
         document.addEventListener('mousedown', handleClickOutside);
         return () => {
@@ -149,6 +155,7 @@ export default function SearchBar({ addToWatchlist, onMovieSelect, watchlist }) 
                     placeholder="Search for a movie"
                     value={query}
                     onChange={handleInputChange}
+                    onClick={handleSearchBarClick}
                 />
                 {results.length > 0 && (
                     <div className="search-results" ref={resultsRef}>
@@ -158,11 +165,11 @@ export default function SearchBar({ addToWatchlist, onMovieSelect, watchlist }) 
                                 className="search-result-item"
                                 onClick={(e) => {
                                     e.stopPropagation();
-                                    onMovieSelect(result);
+                                    handleMovieSelect(result);
                                 }}
                             >
                                 <img 
-                                    src={`https://image.tmdb.org/t/p/w92${result.poster_path}`} 
+                                    src={result.poster_path ? `https://image.tmdb.org/t/p/w92${result.poster_path}` : '/no_image_movies.png'} 
                                     alt={result.title} 
                                     className="result-poster"
                                 />

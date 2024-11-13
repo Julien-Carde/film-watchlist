@@ -5,6 +5,16 @@ import './MoviePage.css';
 const API_KEY = process.env.REACT_APP_TMDB_API_KEY;
 const BASE_URL = 'https://api.themoviedb.org/3';
 
+const formatCountryName = (countryName) => {
+    const countryMappings = {
+        'United States of America': 'USA',
+        'Soviet Union': 'USSR',
+        'United Kingdom': 'UK',
+    };
+    
+    return countryMappings[countryName] || countryName;
+};
+
 export default function MoviePage({ movie, onBack, onAddToWatchlist, onRemoveFromWatchlist, isInWatchlist, onMovieSelect }) {
     const [movieDetails, setMovieDetails] = useState(null);
     const [cast, setCast] = useState([]);
@@ -137,7 +147,10 @@ export default function MoviePage({ movie, onBack, onAddToWatchlist, onRemoveFro
                     <p className="movie-meta">
                         {movieDetails.release_date.split('-')[0]} <span>•</span> 
                         {movieDetails.runtime} min <span>•</span> 
-                        {movieDetails.genres.map(g => g.name).join(', ')}
+                        {movieDetails.production_countries && movieDetails.production_countries[0] && (
+                            <>{formatCountryName(movieDetails.production_countries[0].name)} <span>•</span></>
+                        )}
+                        {' '}{movieDetails.genres.map(g => g.name).join(', ')}
                     </p>
                     <p className="director">Director: {movie.director}</p>
                     <p className="overview">{movie.overview}</p>
@@ -211,7 +224,7 @@ export default function MoviePage({ movie, onBack, onAddToWatchlist, onRemoveFro
                                 onClick={(e) => handleRecommendationClick(rec, e)}
                             >
                                 <img 
-                                    src={`https://image.tmdb.org/t/p/w300${rec.poster_path}`}
+                                    src={rec.poster_path ? `https://image.tmdb.org/t/p/w300${rec.poster_path}` : '/no_image_movies.png'}
                                     alt={rec.title}
                                     draggable="false"
                                 />

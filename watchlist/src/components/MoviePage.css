@@ -55,7 +55,7 @@
 }
 
 .movie-meta span {
-    margin: 0 5px;
+    margin: 0 4px;
 }
 
 .director {
@@ -329,7 +329,7 @@
     }
 
     .movie-poster {
-        width: 200px;
+        width: 300px;
         height: auto;
         margin-right: 0;
     }
