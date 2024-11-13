@@ -1,0 +1,44 @@
+/* Watchlist.css */
+
+.watchlist-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.watchlist.list {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0;
+}
+
+.watchlist.grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    width: 100%;
+}
+
+@media screen and (min-width: 768px) {
+    .watchlist.grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.empty-watchlist {
+    text-align: center;
+    padding: 40px 20px;
+    font-family: 'Neue Haas Roman';
+    color: #666;
+}
+
+.empty-watchlist p:first-child {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.empty-watchlist p:last-child {
+    font-size: 16px;
+}
+

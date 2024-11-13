@@ -1,0 +1,354 @@
+@font-face {
+    font-family:'Neue Haas';
+    src: url('/public/fonts/neue-haas-grotesk-display-pro-cufonfonts/NeueHaasDisplayRoman.ttf') format('truetype');
+}
+
+
+.movie-page {
+    font-family: 'Neue Haas Roman';
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.back-button {
+    font-family: 'Neue Haas Roman';
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    cursor: pointer;
+    padding: 10px 0;
+    margin-bottom: 20px;
+}
+
+.back-button:hover {
+    opacity: 0.7;
+}
+
+.movie-page-header {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 40px;
+    align-items: flex-start;
+}
+
+.movie-poster {
+    width: 300px;
+}
+
+.movie-header-info {
+    flex: 1;
+}
+
+.movie-header-info h1 {
+    font-family: 'Neue Haas Thin';
+    font-size: 50px;
+    margin: 0;
+    padding: 0;
+    line-height: 1.2;
+}
+
+.movie-meta {
+    margin-top: 15px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.movie-meta span {
+    margin: 0 5px;
+}
+
+.director {
+    font-style: italic;
+    margin-bottom: 20px;
+}
+
+.overview {
+    text-align: justify;
+}
+
+.rating {
+    font-size: 1.2em;
+    margin-top: 20px;
+}
+
+.rating span {
+    color: rgb(0, 0, 0);
+}
+
+.trailer-section {
+    margin: 40px 0;
+}
+
+.trailer-section h2 {
+    font-family: 'Neue Haas Roman';
+}
+
+.trailer-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+}
+
+.trailer-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.cast-section {
+    margin: 40px 0;
+}
+
+.cast-section h2 {
+    margin-bottom: 20px;
+}
+
+.cast-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 20px;
+}
+
+.cast-member {
+    flex: 0 0 150px;
+    min-width: 150px;
+    text-align: center;
+}
+
+.cast-member img {
+    width: 120px;
+    height: 180px;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+.actor-name {
+    font-weight: bold;
+    margin: 5px 0;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 5px;
+}
+
+.character-name {
+    color: #666;
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 5px;
+}
+
+.movie-page-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 30px;
+}
+
+.watchlist-action-button {
+    font-family: 'Neue Haas Roman';
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: all 0.2s ease;
+    display: inline-block;
+    height: 40px;
+    display: flex;
+    align-items: center;
+}
+
+.watchlist-action-button.add {
+    background-color: #000;
+    color: white;
+    border: 1px solid #000;
+}
+
+.watchlist-action-button.add:hover {
+    background-color: #333;
+}
+
+.watchlist-action-button.remove {
+    background-color: white;
+    color: #000;
+    border: 1px solid #000;
+}
+
+.watchlist-action-button.remove:hover {
+    background-color: #f0f0f0;
+}
+
+.slider-section {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.slider-section h2 {
+    margin-bottom: 20px;
+}
+
+.slider-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.slider-content {
+    display: flex;
+    overflow-x: auto;
+    gap: 20px;
+    margin: 0 50px;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.slider-content::-webkit-scrollbar {
+    display: none;
+}
+
+.scroll-button {
+    background: transparent;
+    color: rgb(0, 0, 0);
+    border: none;
+    width: 40px;
+    height: 40px;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    z-index: 2;
+    transition: opacity 0.3s ease;
+}
+
+.scroll-button:hover {
+    transform: none;
+}
+
+.scroll-button.left {
+    left: 10px;
+}
+
+.scroll-button.right {
+    right: 10px;
+}
+
+.recommendation-item {
+    flex: 0 0 200px;
+    min-width: 200px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.recommendation-item img {
+    width: 180px;
+    height: 270px;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+.recommendation-title {
+    font-weight: bold;
+    margin: 5px 0;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 5px;
+}
+
+.recommendation-year {
+    color: #666;
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 5px;
+}
+
+/* Position buttons for cast section */
+.slider-section:has(#castSlider) .scroll-button.left,
+.slider-section:has(#castSlider) .scroll-button.right {
+    top: 90px;
+    transform: translateY(-50%);
+}
+
+/* Position buttons for recommendations section */
+.slider-section:has(#recommendationsSlider) .scroll-button.left,
+.slider-section:has(#recommendationsSlider) .scroll-button.right {
+    top: 135px;
+    transform: translateY(-50%);
+}
+
+/* Prevent hover effects from causing layout shifts */
+.cast-member, 
+.recommendation-item {
+    flex-shrink: 0;
+    position: relative;
+}
+
+.recommendation-item {
+    width: 200px;
+}
+
+.cast-member {
+    width: 150px;
+}
+
+.cast-member {
+    flex: 0 0 150px;
+}
+
+.recommendation-item {
+    flex: 0 0 200px;
+}
+
+.recommendation-item:hover {
+    transform: none;
+}
+
+.cast-member img,
+.recommendation-item img {
+    pointer-events: none;
+    user-select: none;
+}
+
+@media (max-width: 768px) {
+    .movie-page-header {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .movie-poster {
+        width: 200px;
+        height: auto;
+        margin-right: 0;
+    }
+
+    .movie-header-info {
+        text-align: center;
+        padding: 0 20px;
+        width: 100%;
+    }
+
+    .movie-header-info h1 {
+        margin-top: 0;
+    }
+
+    .movie-meta {
+        justify-content: center;
+    }
+
+    .rating {
+        justify-content: center;
+    }
+} 
