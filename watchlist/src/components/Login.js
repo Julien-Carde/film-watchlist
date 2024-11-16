@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './Login.css';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+const API_URL = process.env.REACT_APP_API_URL;
+
+console.log('Using API URL:', API_URL);
 
 export default function Login({ onLogin }) {
     const [isRegistering, setIsRegistering] = useState(false);
