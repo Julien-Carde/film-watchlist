@@ -14,8 +14,9 @@ app.get('/health', (req, res) => {
 app.use(cors({
     origin: [
         'http://localhost:3000',
-        'https://watchlist-ktw00smxa-julien-cardes-projects.vercel.app',
-        'https://watchlist-one-xi.vercel.app/'
+        'https://watchlist-one-xi.vercel.app',
+        'https://watchlist-git-main-julien-cardes-projects.vercel.app',
+        'https://film-watchlist-v2.vercel.app'
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
@@ -26,11 +27,18 @@ app.use(express.json());
 
 // Add this before your routes to debug CORS issues
 app.use((req, res, next) => {
-    console.log('Incoming request:', {
-        method: req.method,
-        path: req.path,
-        origin: req.headers.origin
-    });
+    console.log('Request from:', req.headers.origin);
+    console.log('Request method:', req.method);
+    console.log('Request path:', req.path);
+    next();
+});
+
+// Make sure all responses include CORS headers
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', req.headers.origin);
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.header('Access-Control-Allow-Credentials', true);
     next();
 });
 
