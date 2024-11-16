@@ -12,7 +12,11 @@ app.get('/health', (req, res) => {
 
 // CORS configuration
 app.use(cors({
-    origin: ['http://localhost:3000'],
+    origin: [
+        'http://localhost:3000',
+        'https://watchlist-one-xi.vercel.app/', // Your Vercel domain
+        'https://watchlist-git-main-juliencardeillac.vercel.app' // Preview deployments
+    ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
