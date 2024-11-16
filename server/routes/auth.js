@@ -7,6 +7,7 @@ const User = require('../models/User');
 // Register route
 router.post('/register', async (req, res) => {
     try {
+        console.log('Register request received:', req.body);
         const { username, password } = req.body;
 
         // Check if user already exists
@@ -22,11 +23,12 @@ router.post('/register', async (req, res) => {
         });
 
         await user.save();
+        console.log('User created successfully');
 
         // Generate JWT
         const token = jwt.sign(
             { userId: user._id },
-            process.env.JWT_SECRET || 'your-secret-key',
+            process.env.JWT_SECRET,
             { expiresIn: '24h' }
         );
 

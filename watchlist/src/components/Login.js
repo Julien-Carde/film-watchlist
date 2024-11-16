@@ -17,6 +17,7 @@ export default function Login({ onLogin }) {
         setError('');
         
         try {
+            console.log('Attempting to connect to:', API_URL);
             const endpoint = isRegistering ? '/api/register' : '/api/login';
             const response = await axios.post(`${API_URL}${endpoint}`, {
                 username,
@@ -27,7 +28,11 @@ export default function Login({ onLogin }) {
             localStorage.setItem('username', username);
             onLogin(username);
         } catch (error) {
-            console.error('Auth error:', error);
+            console.error('Auth error details:', {
+                message: error.message,
+                response: error.response?.data,
+                status: error.response?.status
+            });
             setError(isRegistering ? 'Registration failed' : 'Login failed');
         }
     };

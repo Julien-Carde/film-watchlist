@@ -14,8 +14,8 @@ app.get('/health', (req, res) => {
 app.use(cors({
     origin: [
         'http://localhost:3000',
-        'https://watchlist-one-xi.vercel.app/', // Your Vercel domain
-        'https://watchlist-git-main-juliencardeillac.vercel.app' // Preview deployments
+        'https://watchlist-ktw00smxa-julien-cardes-projects.vercel.app',
+        'https://watchlist-one-xi.vercel.app/'
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
@@ -23,6 +23,16 @@ app.use(cors({
 }));
 
 app.use(express.json());
+
+// Add this before your routes to debug CORS issues
+app.use((req, res, next) => {
+    console.log('Incoming request:', {
+        method: req.method,
+        path: req.path,
+        origin: req.headers.origin
+    });
+    next();
+});
 
 // MongoDB connection with detailed error logging
 console.log('Attempting to connect to MongoDB...');
