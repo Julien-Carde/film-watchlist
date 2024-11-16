@@ -5,7 +5,7 @@ import './SearchBar.css';
 const API_KEY = process.env.REACT_APP_TMDB_API_KEY;
 const BASE_URL = 'https://api.themoviedb.org/3';
 
-export default function SearchBar({ addToWatchlist, onMovieSelect, watchlist }) {
+export default function SearchBar({ addToWatchlist, onMovieSelect, watchlist = [] }) {
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
     const searchBarRef = useRef(null);
@@ -126,7 +126,7 @@ export default function SearchBar({ addToWatchlist, onMovieSelect, watchlist }) 
     };
 
     const isInWatchlist = (movieId) => {
-        return watchlist.some(item => item.id === movieId);
+        return Array.isArray(watchlist) && watchlist.some(item => item.id === movieId);
     };
 
     const handleSearchBarClick = () => {

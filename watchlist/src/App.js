@@ -3,40 +3,89 @@ import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import SearchBar from './components/SearchBar';
 import Watchlist from './components/Watchlist';
+import Login from './components/Login';
 import axios from 'axios';
 import MoviePage from './components/MoviePage';
 
 const API_KEY = process.env.REACT_APP_TMDB_API_KEY;
 const BASE_URL = 'https://api.themoviedb.org/3';
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
 
 function App() {
-  const [watchlist, setWatchlist] = useState(() => {
-    const saved = localStorage.getItem('watchlist');
-    return saved ? JSON.parse(saved) : [];
-  });
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [username, setUsername] = useState('');
+  const [watchlist, setWatchlist] = useState([]);
   const [isGrid, setIsGrid] = useState(true);
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
+  // Check for existing login session
   useEffect(() => {
-    console.log('Saving watchlist to local storage:', watchlist);
-    localStorage.setItem('watchlist', JSON.stringify(watchlist));
-  }, [watchlist]);
-
-  const addToWatchlist = (movie) => {
-    if (watchlist.some(item => item.id === movie.id)) {
-        return;
+    const token = localStorage.getItem('token');
+    const savedUsername = localStorage.getItem('username');
+    if (token && savedUsername) {
+      setIsLoggedIn(true);
+      setUsername(savedUsername);
+      // Fetch user's watchlist from MongoDB
+      fetchWatchlist(token);
     }
-    
-    setWatchlist(prev => {
-        const newWatchlist = [...prev, movie];
-        localStorage.setItem('watchlist', JSON.stringify(newWatchlist));
-        return newWatchlist;
-    });
+  }, []);
+
+  // Fetch watchlist from MongoDB
+  const fetchWatchlist = async (token) => {
+    try {
+      const response = await axios.get(`${API_URL}/api/watchlist`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setWatchlist(response.data.movies || []);
+    } catch (error) {
+      console.error('Error fetching watchlist:', error);
+      setWatchlist([]);
+    }
   };
 
-  const removeFromWatchlist = (movieId) => {
-    setWatchlist((prevWatchlist) => prevWatchlist.filter(movie => movie.id !== movieId));
+  const handleLogin = async (username) => {
+    setIsLoggedIn(true);
+    setUsername(username);
+    const token = localStorage.getItem('token');
+    await fetchWatchlist(token);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('username');
+    setIsLoggedIn(false);
+    setUsername('');
+    setWatchlist([]);
+  };
+
+  const addToWatchlist = async (movie) => {
+    // Ensure watchlist is an array
+    const currentWatchlist = Array.isArray(watchlist) ? watchlist : [];
+    
+    if (!currentWatchlist.some(item => item.id === movie.id)) {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await axios.post(
+          `${API_URL}/api/watchlist/add`,
+          { movie },
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        
+        // Ensure we're setting an array
+        setWatchlist(response.data.movies || []);
+      } catch (error) {
+        console.error('Error adding to watchlist:', error.response?.data || error);
+        // Set empty array on error
+        setWatchlist([]);
+      }
+    }
+  };
+
+  const removeFromWatchlist = async (movieId) => {
+    // Also add type checking here
+    const currentWatchlist = Array.isArray(watchlist) ? watchlist : [];
+    setWatchlist(currentWatchlist.filter(movie => movie.id !== movieId));
   };
 
   const toggleView = (grid) => {
@@ -79,34 +128,59 @@ function App() {
     }, 150);
   };
 
+  useEffect(() => {
+    const fetchWatchlist = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await axios.get(`${API_URL}/api/watchlist`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+
+        setWatchlist(response.data);
+      } catch (error) {
+        console.error('Error fetching watchlist:', error);
+      }
+    };
+
+    fetchWatchlist();
+  }, []);
+
+  if (!isLoggedIn) {
+    return <Login onLogin={handleLogin} />;
+  }
+
   return (
-    <>
-      <Header toggleView={toggleView} />
-      <SearchBar 
-        addToWatchlist={addToWatchlist}
-        onMovieSelect={handleMovieSelect}
-        watchlist={watchlist}
-      />
-      <div className={`content ${isTransitioning ? 'transitioning' : ''}`}>
-        {!selectedMovie ? (
-          <Watchlist 
-            watchlist={watchlist} 
-            onRemove={removeFromWatchlist} 
-            isGrid={isGrid}
-            onMovieSelect={handleMovieSelect} 
-          />
-        ) : (
-          <MoviePage 
-            movie={selectedMovie} 
-            onBack={handleBackToWatchlist}
-            onAddToWatchlist={addToWatchlist}
-            onRemoveFromWatchlist={removeFromWatchlist}
-            isInWatchlist={isMovieInWatchlist(selectedMovie.id)}
+    <div className="App">
+      {isLoggedIn ? (
+        <>
+          <Header toggleView={toggleView} username={username} onLogout={handleLogout} />
+          <SearchBar 
+            addToWatchlist={addToWatchlist} 
             onMovieSelect={handleMovieSelect}
+            watchlist={watchlist || []}
           />
-        )}
-      </div>
-    </>
+          {selectedMovie ? (
+            <MoviePage
+              movie={selectedMovie}
+              onBack={() => setSelectedMovie(null)}
+              onAddToWatchlist={addToWatchlist}
+              onRemoveFromWatchlist={removeFromWatchlist}
+              isInWatchlist={watchlist.some(m => m.id === selectedMovie.id)}
+              onMovieSelect={handleMovieSelect}
+            />
+          ) : (
+            <Watchlist
+              watchlist={watchlist || []}
+              onRemove={removeFromWatchlist}
+              isGrid={isGrid}
+              onMovieSelect={handleMovieSelect}
+            />
+          )}
+        </>
+      ) : (
+        <Login onLogin={handleLogin} />
+      )}
+    </div>
   );
 }
 

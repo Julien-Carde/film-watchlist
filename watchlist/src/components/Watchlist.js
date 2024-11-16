@@ -4,7 +4,10 @@ import MovieCard from './MovieCard';
 import './Watchlist.css';
 
 export default function Watchlist({ watchlist, onRemove, isGrid, onMovieSelect }) {
-    if (watchlist.length === 0) {
+    // Ensure watchlist is always an array
+    const movies = Array.isArray(watchlist) ? watchlist : [];
+
+    if (movies.length === 0) {
         return (
             <div className="empty-watchlist">
                 <p>Your watchlist</p>
@@ -15,7 +18,7 @@ export default function Watchlist({ watchlist, onRemove, isGrid, onMovieSelect }
 
     return (
         <div className={`watchlist ${isGrid ? "grid" : "list"}`}>
-            {watchlist.map((movie) => (
+            {movies.map((movie) => (
                 <MovieCard 
                     key={movie.id} 
                     movie={movie} 

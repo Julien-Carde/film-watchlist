@@ -3,17 +3,24 @@
     src: url('/public/fonts/neue-haas-grotesk-display-pro-cufonfonts/NeueHaasDisplayXThin.ttf') format('truetype');
 }
 
-.container {
+header {
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
+    align-items: center;
     border-bottom: 1px solid black;
-    padding-right: 20px;
+    padding: 0 20px;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }
 
 .display {
     font-family: 'Neue Haas Thin';
-    display: inline-flex;
+    display: flex;
+    align-items: center;
     gap: 20px;
 }
 
@@ -21,11 +28,37 @@
     cursor: pointer;
 }
 
-
 h1 {
     font-family: 'Neue Haas Thin';
     font-size: 50px;
-    padding: 10px;
+    margin: 0;
+    padding: 10px 0;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.username {
+    font-family: 'Neue Haas Thin';
+    font-size: 0.9rem;
+}
+
+.logout-button {
+  padding: 0.5rem 1rem;
+  background-color: transparent;
+  border: 1px solid #fff;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.logout-button:hover {
+  background-color: #fff;
+  color: #000;
 }
 
 
